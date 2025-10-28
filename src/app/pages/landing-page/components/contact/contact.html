@@ -1,0 +1,92 @@
+<section
+  class="py-24 bg-gradient-to-br from-indigo-600 via-indigo-600/90 to-purple-700 relative overflow-hidden"
+>
+  <!-- Background decorations -->
+  <img
+    [src]="'./grid-lines.svg'"
+    class="absolute w-full h-full top-0 left-0 object-cover opacity-5"
+  />
+  <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+  <div class="absolute top-0 right-0 w-96 h-96 bg-purto-purple-700/30 rounded-full blur-3xl"></div>
+
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="max-w-4xl mx-auto text-center space-y-8">
+      <!-- Badge -->
+      <div
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 mb-4"
+      >
+        <span class="text-sm font-medium text-white">Acesso Antecipado</span>
+      </div>
+
+      <!-- Heading -->
+      <h2 class="text-4xl lg:text-6xl font-poppins text-white leading-tight">
+        Construa orçamentos mais inteligentes.<br />
+        Construa com o Alicerce.
+      </h2>
+
+      <p class="text-xl text-white/90 max-w-2xl mx-auto">
+        Entre na lista de acesso antecipado e seja um dos primeiros a transformar sua gestão de
+        obras com IA
+      </p>
+
+      <!-- Lead Form -->
+      <form
+        [formGroup]="form"
+        (ngSubmit)="submit()"
+        class="max-w-md flex flex-col gap-2 mx-auto space-y-4 bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20"
+      >
+        <!-- <input
+          type="text"
+          placeholder="Seu nome completo"
+          formControlName="name"
+          class="bg-white/90 border-white/30 outline-none text-foreground placeholder:text-muted-foreground h-12 rounded-md px-4 w-full"
+          required
+        /> -->
+        <input-custom
+          type="text"
+          placeholder="Seu nome completo"
+          name="name"
+          formControlName="name"
+          required
+        ></input-custom>
+
+        <input-custom
+          type="email"
+          placeholder="Seu melhor e-mail"
+          name="email"
+          formControlName="email"
+          required
+        ></input-custom>
+
+        <button
+          type="submit"
+          class="w-full bg-burnt-sienna-500  text-white hover:bg-burnt-sienna-600 px-4 py-3 rounded-xl font-poppins flex justify-center items-center gap-2 disabled:bg-burnt-sienna-400"
+          [disabled]="isSubmitting || !form.valid"
+        >
+          {{ isSubmitting ? 'Enviando...' : 'Entrar na lista de acesso antecipado' }}
+          <i *ngIf="!isSubmitting" class="fa-solid fa-arrow-right "></i>
+        </button>
+
+        <p class="text-sm text-white/80 text-center">⏱️ Leva menos de 1 minuto • Sem compromisso</p>
+      </form>
+
+      <!-- Trust indicators -->
+      <div class="flex flex-wrap justify-center items-center gap-8 pt-8">
+        <div class="text-white/90 text-center">
+          <div class="text-2xl font-poppins">Gratuito</div>
+          <div class="text-sm">para testar</div>
+        </div>
+        <div class="w-px h-12 bg-white/30"></div>
+        <div class="text-white/90 text-center">
+          <div class="text-2xl font-poppins">Sem cartão</div>
+          <div class="text-sm">necessário</div>
+        </div>
+        <div class="w-px h-12 bg-white/30"></div>
+        <div class="text-white/90 text-center">
+          <div class="text-2xl font-poppins">Suporte</div>
+          <div class="text-sm">dedicado</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

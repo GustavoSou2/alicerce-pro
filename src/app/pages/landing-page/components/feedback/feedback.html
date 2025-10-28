@@ -1,0 +1,31 @@
+<section id="feedback" class="w-full bg-white flex flex-col gap-4">
+    <section class="w-full max-w-7xl mx-auto grid grid-cols-1 bg-white p-12 gap-6">
+      <h2 class="title">O que você achou da experiência?</h2>
+
+      <p class="text-xl font-light text-waterloo-600">
+        Queremos ouvir sua opinião para continuar evoluindo. Seu feedback nos ajuda a construir uma
+        plataforma cada vez melhor para o setor da construção civil.
+      </p>
+
+      <div class="flex flex-wrap gap-5">
+        <div
+          *ngFor="let social of feedbacks"
+          class="flex flex-1 bg-slate-100 min-w-[350px] flex-col gap-4 p-6 rounded-2xl shadow-sm hover:shadow-md transition"
+        >
+          <div class="subtitle">
+            <h3 class="social-card--title-name">{{ social.name }}</h3>
+            <small class="text-slate-400">{{ social.role }}</small>
+          </div>
+          <p class="text-slate-500">
+            {{ social.feedback }}
+          </p>
+          <p class="text-slate-500">
+            {{ social.highlight }}
+          </p>
+          <div class="flex flex-row">
+            <img *ngFor="let star of [1, 2, 3, 4, 5]" [src]="'star.svg'" alt="star" />
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>

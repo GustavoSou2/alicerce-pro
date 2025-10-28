@@ -1,0 +1,38 @@
+<div class="p-8 rounded-2xl text-center animate-fadeIn">
+  <h2 class="text-2xl font-semibold text-slate-800">Acesso Antecipado ao Beta 🚀</h2>
+  <p class="text-slate-500 mt-2">
+    Estamos testando o simulador de orçamentos com IA com um grupo exclusivo de profissionais.
+    Preencha abaixo para fazer parte!
+  </p>
+
+  <form (ngSubmit)="submitBetaAccess()" [formGroup]="form" class="flex flex-col gap-3 mt-6">
+    <input-custom
+      type="text"
+      placeholder="Seu nome completo"
+      name="name"
+      formControlName="name"
+      required
+      className="border border-big-stone-300"
+    ></input-custom>
+
+    <input-custom
+      type="email"
+      placeholder="Seu melhor e-mail"
+      name="email"
+      formControlName="email"
+      required
+      className="border border-big-stone-300"
+    ></input-custom>
+    <button
+      type="submit"
+      [disabled]="!form.valid"
+      class="bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-950 text-white py-2 rounded-lg font-poppins transition mt-4"
+    >
+      Quero participar do Beta
+    </button>
+  </form>
+
+  <button (click)="closeModal()" type="button" class="mt-4 text-sm text-slate-400 hover:text-slate-600">
+    Fechar
+  </button>
+</div>

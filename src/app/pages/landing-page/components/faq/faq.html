@@ -1,0 +1,33 @@
+<section id="faq" class="w-full bg-white p-12 flex flex-col gap-4">
+    <section class="w-full max-w-4xl mx-auto px-4 py-10">
+      <h2 class="text-4xl font-poppins text-center text-slate-800 mb-8">Perguntas Frequentes</h2>
+
+      <div *ngFor="let faq of faqs; let i = index" class="border-b border-slate-200 py-4">
+        <button
+          class="w-full flex justify-between outline-none items-center text-left text-lg font-medium text-slate-700 focus:outline-none"
+          (click)="toggle(i)"
+        >
+          <span class="font-normal font-poppins">{{ faq.question }}</span>
+          <i
+            class="fa-solid"
+            [ngClass]="{
+              'fa-chevron-down': openIndex !== i,
+              'fa-chevron-up': openIndex === i
+            }"
+          ></i>
+        </button>
+
+        <div
+          class="overflow-hidden transition-all duration-300 ease-in-out"
+          [ngClass]="{
+            'max-h-0 opacity-0': openIndex !== i,
+            'max-h-40 opacity-100 mt-2': openIndex === i
+          }"
+        >
+          <p class="text-slate-500 text-base leading-relaxed">
+            {{ faq.answer }}
+          </p>
+        </div>
+      </div>
+    </section>
+  </section>

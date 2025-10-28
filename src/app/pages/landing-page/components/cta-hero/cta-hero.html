@@ -1,0 +1,62 @@
+<section id="cta_hero" class="w-full bg-white p-12 px-12 flex flex-col gap-4">
+    <section class="w-full md:max-w-4xl mx-auto gap-6">
+      <p class="text-xl font-light text-waterloo-600 w-full">
+        Do orçamento ao canteiro, o Alicerce conecta todos os processos da construção civil em um
+        único lugar.
+      </p>
+    </section>
+
+    <section
+      class="w-full md:max-w-4xl mx-auto grid grid-cols-1 bg-gradient-to-tr from-slate-100 to-royal-blue-100 rounded-md p-10 gap-6"
+    >
+      <!-- Mensagem do usuário -->
+      <div class="chat-message flex flex-col justify-end items-end">
+        <div class="flex flex-row items-center text-slate-500 gap-2">
+          Você
+          <div class="w-[45px] h-[45px] rounded-full bg-slate-300 flex justify-center items-center">
+            <i class="fa-regular fa-user text-slate-500"></i>
+          </div>
+        </div>
+        <p
+          class="text-md text-waterloo-600 flex flex-1 bg-white rounded-2xl p-4 mt-2 rounded-tr-none"
+        >
+          No que a Alicerce vai ajudar no gerenciamento das minhas obras?
+        </p>
+      </div>
+
+      <!-- Resposta da IA -->
+      <div class="chat-message flex flex-col">
+        <div class="flex flex-row items-center text-slate-500 gap-2">
+          <div class="w-[45px] h-[45px] rounded-full p-1 bg-white flex justify-center items-center">
+            <img [src]="'logo_royal.svg'" alt="logo" class="size-14 object-contain" />
+          </div>
+          <span class="text-indigo-600 font-semibold">Alicerce</span>
+        </div>
+        <div
+          class="text-md text-slate-800 grid grid-cols-1 gap-4 bg-royal-blue-200 rounded-2xl p-4 mt-2 rounded-tl-none"
+        >
+          <p>✨ De uma simples estimativa à gestão completa da sua obra.</p>
+        </div>
+
+        <!-- Lista de features -->
+        <div
+          class="text-md text-slate-800 grid grid-cols-1 gap-4 bg-royal-blue-200 rounded-2xl p-4 mt-2"
+        >
+          <p>Recursos que transformam a forma de gerenciar obras:</p>
+          <div class="grid grid-cols-1 gap-4">
+            <div
+              *ngFor="let feature of featuresCards; trackBy: trackByTitle"
+              class="grid grid-cols-[10px_1fr_40px] gap-2 cursor-pointer hover:translate-x-1 transition-all"
+              (click)="selectFeature(feature)"
+            >
+              •
+              <div class="grid grid-cols-1">
+                <p class="w-full">{{ feature.title }} - {{ feature.description }}</p>
+              </div>
+              <i class="fa-solid fa-arrow-right text-sm text-royal-blue-700"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
