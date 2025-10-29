@@ -34,7 +34,7 @@ import { CurrencyMaskDirective } from '../../directives/currency-mask/currency-m
         [ngClass]="className"
         [ngClass]="{ 'is-disabled': isDisabled$ | async }"
       >
-        <img *ngIf="icon" [src]="'./icons/' + icon" />
+        <img *ngIf="icon" [src]="'./icons/' + icon" [alt]="'Input image'" />
         <input
           [id]="inputId"
           [type]="type"
