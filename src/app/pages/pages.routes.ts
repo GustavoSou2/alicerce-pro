@@ -10,3 +10,14 @@ export const pagesRoutes: Routes = [
     redirectTo: '',
   },
 ];
+
+export const appRoutes: Routes = [
+  {
+    path: 'entrar',
+    loadComponent: () => import('./login/login').then((m) => m.Login),
+  },
+  {
+    path: '**',
+    redirectTo: 'entrar',
+  },
+];

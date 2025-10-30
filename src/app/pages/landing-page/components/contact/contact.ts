@@ -33,7 +33,7 @@ export class Contact {
     this.isSubmitting = true;
 
     this.http
-      .post('https://formspree.io/f/asdasdeas', this.form.value)
+      .post('https://formspree.io/f/xyzbdnrn', this.form.value)
       .pipe(finalize(() => (this.isSubmitting = false)))
       .subscribe({
         next: () => {

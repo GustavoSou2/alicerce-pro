@@ -1,1 +1,54 @@
-<p>login works!</p>
+<section class="w-scree h-screen overflow-hidden">
+  <section class="flex flex-col h-full p-8 md:p-12 max-w-xl md:text-center m-auto">
+    <section class="login--logo">
+      <img
+        [src]="'logo_royal.svg'"
+        class="w-[90px] h-[90px] object-contain md:m-auto"
+        alt="Alicerce Pro Gerenciamento de obras | Logo"
+      />
+      <span class="text-royal-blue-600 text-4xl font-poppins font-medium">Alicerce</span>
+    </section>
+    <section class="h-full">
+      <section class="mt-12">
+        <h1 class="title text-big-stone-600">Bem-vindo a Alicerce</h1>
+        <p class="subtitle text-waterloo-700">A construção do futuro começa com uma boa gestão.</p>
+      </section>
+      <section class="mt-8">
+        <form [formGroup]="login" class="flex flex-col gap-2">
+          <input-custom
+            type="email"
+            placeholder="exemplo@gmail.com"
+            label="E-mail"
+            name="alicerce_email"
+            formControlName="alicerce_email"
+            required
+          ></input-custom>
+          <input-custom
+            type="password"
+            placeholder="Senha"
+            label="Senha"
+            name="alicerce_password"
+            formControlName="alicerce_password"
+            required
+          ></input-custom>
+          <a href="" class="text-left text-royal-blue-600 text-sm">Esqueceu a senha?</a>
+
+          <button
+            type="button"
+            class="rounded-md w-full bg-indigo-600 text-white py-2 px-6 hover:bg-indigo-800 mt-4"
+            (clicked)="onSubmit()"
+          >
+            Entrar
+          </button>
+        </form>
+      </section>
+    </section>
+    <section class="text-base font-poppins">
+      <span>Não possui uma conta ainda?</span>
+      <a routerLink="/account/login" class="text-indigo-600 ml-2">Cadastrar-se</a>
+    </section>
+    <section class="text-base text-waterloo-700 mt-4">
+      <p>© 2021 Alicerce. Todos os direitos reservados.</p>
+    </section>
+  </section>
+</section>

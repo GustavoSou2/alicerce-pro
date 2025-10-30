@@ -47,6 +47,7 @@ export class ButtonComponent {
   }
 
   get buttonClass() {
+    
     return `button-custom button-custom--${this.variant()} ${
       this.isDisabledButton ? 'disabled' : ''
     } button-custom--${this.size()}`;

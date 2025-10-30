@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
-import { pagesRoutes } from './pages/pages.routes';
+import { appRoutes, pagesRoutes } from './pages/pages.routes';
 
-export const routes: Routes = [
-  ...pagesRoutes,
-];
+export const defRoutes: Routes = [...pagesRoutes];
+
+const subdomain = window.location.hostname.split('.')[0];
+
+export const routes = subdomain == 'www' || subdomain == 'localhost' ? defRoutes : appRoutes;
