@@ -1,0 +1,103 @@
+<div class="flex h-screen bg-slate-100 font-poppins">
+  <aside
+    class="fixed inset-y-0 left-0 z-50 flex flex-col transition-all duration-300 ease-in-out text-waterloo-700 bg-white shadow-xl md:static md:shadow-none md:border-r md:border-slate-200"
+    
+    [ngClass]="{
+      'w-64': !isCollapsed(),
+      'w-20': isCollapsed(),
+      'md:translate-x-0': !isCollapsed(),
+      '-translate-x-full md:translate-x-0': isCollapsed(),
+    }"
+  >
+ 
+    <div class="flex items-center justify-between h-[65px] p-4 border-b border-slate-200">
+      <div class="flex items-center gap-2">
+        <img
+          src="logo_royal.svg"
+          alt="Logo"
+          class="h-8 w-8"
+          [ngClass]="{
+            'm-auto': isCollapsed()
+          }"
+        />
+        <span *ngIf="!isCollapsed()" class="text-lg font-semibold tracking-wide whitespace-nowrap">
+          Alicerce
+        </span>
+      </div>
+    </div>
+
+    <nav class="flex-1 overflow-y-auto p-2 space-y-1">
+      <ng-container *ngFor="let item of filteredMenu()">
+        <a
+          [routerLink]="item.path"
+          routerLinkActive="bg-waterloo-200"
+          class="flex items-center gap-3 rounded-lg p-3 text-sm hover:bg-waterloo-100 transition"
+        >
+          <i
+            [class]="item.icon"
+            [ngClass]="{
+              'm-auto': isCollapsed()
+            }"
+          ></i>
+          <span *ngIf="!isCollapsed()">{{ item.label }}</span>
+        </a>
+      </ng-container>
+    </nav>
+
+    <div class="p-4 border-t border-slate-200 flex items-center justify-between">
+      <div class="flex items-center gap-3" *ngIf="!isCollapsed()">
+        <img
+          [src]="user.avatar"
+          alt="Avatar"
+          class="h-10 w-10 rounded-full border border-slate-200"
+        />
+        <div class="leading-tight">
+          <p class="font-semibold text-sm text-waterloo-900">{{ user.name }}</p>
+          <p class="text-xs text-waterloo-500">{{ user.role }}</p>
+        </div>
+      </div>
+      <button class="text-waterloo-700 hover:text-red-500 transition ml-auto" (click)="logout()">
+        <i class="fa-solid fa-right-from-bracket"></i>
+      </button>
+    </div>
+  </aside>
+
+  <div class="flex-1 flex flex-col overflow-hidden">
+    <header
+      class="flex items-center justify-between bg-white h-[65px] border-b border-slate-200 px-4 md:px-6"
+    >
+      <div class="flex items-center gap-4">
+        <button
+          (click)="toggleSidebar()"
+          class="text-waterloo-700 hover:text-waterloo-200 transition"
+        >
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="flex items-center gap-2 hidden">
+          <img src="logo_royal.svg" alt="Logo" class="h-6 w-6" />
+          <span class="text-lg font-semibold tracking-wide whitespace-nowrap text-waterloo-700"
+            >Alicerce</span
+          >
+        </div>
+
+        <h1 class="lg:block font-medium text-waterloo-700 text-sm md:text-base">
+          Painel de Controle
+        </h1>
+      </div>
+
+      <button class="text-waterloo-400 hover:text-waterloo-200 transition">
+        <i class="fa-regular fa-bell"></i>
+      </button>
+    </header>
+
+    <main class="flex-1 overflow-y-auto relative bg-slate-100 font-poppins">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+  <div
+    *ngIf="!isCollapsed()"
+    (click)="toggleSidebar()"
+    class="fixed inset-0 z-40 bg-black bg-opacity-50 md:hidden transition-opacity duration-300"
+  ></div>
+</div>

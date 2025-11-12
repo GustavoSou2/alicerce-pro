@@ -1,0 +1,347 @@
+<section
+  id="chat"
+  class="absolute top-0 left-0 z-40 h-full w-full bg-white font-poppins overflow-y-auto"
+>
+  <section class="grid grid-cols-1 md:grid-cols-[1fr_2fr] h-full">
+    <section class="group flex flex-col border-r border-slate-200 p-4">
+      <h3 class="text-2xl text-slate-800">
+        {{ budgetToEdit ? 'Editar Orçamento' : 'Novo Orçamento com IA' }}
+      </h3>
+      <div class="flex items-start gap-3 p-4 bg-slate-100 rounded-md my-4">
+        <span
+          class="flex-none w-10 h-10 rounded-lg bg-slate-600/10 flex items-center justify-center"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polygon points="13 2 3 14 10 14 9 22 21 10 14 10 15 2" />
+          </svg>
+        </span>
+        <div>
+          <div class="text-sm font-semibold">Rápido de preencher</div>
+          <div class="text-xs text-muted-foreground">Gere um orçamento em menos de 5 minutos.</div>
+        </div>
+      </div>
+      <div class="chat-message flex flex-col">
+        <h2>O que deseja orçar hoje?</h2>
+        <textarea
+          name="chat-prompt"
+          id="chat"
+          class="resize-none p-2"
+          class="w-full h-full bg-white rounded-xl border outline-indigo-600 border-slate-200 flex flex-col justify-between p-3"
+          [(ngModel)]="chatContext"
+          required
+          #textareaIA
+          [placeholder]="'Descreva o contexto do que deseja orçar'"
+        ></textarea>
+        <div class="chat-button flex justify-end mt-4">
+          <button
+            (click)="simulateAIGeneration(chatContext)"
+            class="px-5 py-2 rounded-3xl bg-slate-950 hover:bg-slate-800 text-white disabled:opacity-60"
+          >
+            <span *ngIf="chatIaStatus() != 'loading'"
+              >Gerar orçamento <i class="fa-regular fa-paper-plane"></i
+            ></span>
+            <span *ngIf="chatIaStatus() == 'loading'" class="flex items-center gap-4">
+              Gerar orçamento
+              <div
+                class="rounded-full border-4 w-4 h-4 animate-spin border-white border-t-slate-700"
+              ></div>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <ng-container>
+        <div class="flex flex-row items-center text-slate-500 gap-2 mt-6">
+          <div class="w-[45px] h-[45px] rounded-full p-1 bg-white flex justify-center items-center">
+            <img
+              [src]="'logo_royal.svg'"
+              alt="Alicerce Pro Gerenciamento de obras | Logo"
+              class="size-14 object-contain"
+            />
+          </div>
+          <span class="text-indigo-600 font-medium">Alicerce</span>
+        </div>
+
+        <div class="flex flex-col gap-2 p-6 bg-indigo-100 rounded-md rounded-tl-non w-full">
+          <p class="whitespace-pre-line">Vamos fazer um resumo do seu orçamento.</p>
+          <p>
+            Título:
+            <span class="text-indigo-600">{{ budgetForm.get('nomeOrcamento')?.value }}</span>
+          </p>
+          <p>
+            Cliente: <span class="text-indigo-600">{{ selectedClient.nome }}</span>
+          </p>
+          <p>
+            Descrição:
+            <span class="text-indigo-600">{{ budgetForm.get('observacoes')?.value || 'n/a' }}</span>
+          </p>
+          <div class="border-b border-slate-300"></div>
+          <div class="flex flex-col">
+            <div class="flex justify-between">
+              <span>🧱 Materiais ({{ materialItems().length }})</span>
+              <span>custo: {{ materialsCostTotal() | currency : 'BRL' }}</span>
+            </div>
+            <ng-container *ngIf="materialItems().length > 0">
+              <ul class="flex flex-wrap gap-2">
+                @for(material of materialItems(); track material; let i = $index) {
+                <li
+                  class="bg-indigo-600/20 px-3 p-1 rounded-3xl h-fit w-fit"
+                  (click)="scrollToElement(material.get('uid')?.value)"
+                >
+                  {{ material.get('description')?.value }}
+                </li>
+                }
+              </ul>
+            </ng-container>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex justify-between">
+              <span>📏 Equipamentos ({{ equipamentItems().length }})</span>
+              <span>custo: {{ equipamentsCostTotal() | currency : 'BRL' }}</span>
+            </div>
+            <ng-container *ngIf="equipamentItems().length > 0">
+              <ul class="flex flex-wrap gap-2">
+                @for(equipament of equipamentItems(); track equipament) {
+                <li
+                  class="bg-indigo-600/20 px-3 p-1 rounded-3xl h-fit w-fit"
+                  (click)="scrollToElement(equipament.get('uid')?.value)"
+                >
+                  {{ equipament.get('description')?.value }}
+                </li>
+                }
+              </ul>
+            </ng-container>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex justify-between">
+              <span>👷 Mão de Obra ({{ serviceItems().length }})</span>
+              <span>custo: {{ servicesCostTotal() | currency : 'BRL' }}</span>
+            </div>
+            <ng-container *ngIf="serviceItems().length > 0">
+              <ul class="flex flex-wrap gap-2">
+                @for(service of serviceItems(); track service) {
+                <li
+                  class="bg-indigo-600/20 px-3 p-1 rounded-3xl h-fit w-fit"
+                  (click)="scrollToElement(service.get('uid')?.value)"
+                >
+                  {{ service.get('description')?.value }}
+                </li>
+                }
+              </ul>
+            </ng-container>
+          </div>
+          <div class="border-b border-slate-300"></div>
+          <div class="">Valor total do orçamento:</div>
+          <span class="text-2xl text-indigo-600">
+            {{ budgetForm.get('totalCost')?.value | currency : 'BRL' }}
+          </span>
+        </div>
+      </ng-container>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+        <button
+          type="submit"
+          class="px-6 py-2 rounded-md text-slate-700 bg-slate-100 transition duration-200"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          [disabled]="budgetForm.invalid || items.length === 0"
+          class="px-6 py-2 rounded-md text-white transition duration-200 disabled:opacity-50 shadow-lg shadow-indigo-500/50"
+          [ngClass]="{
+            'bg-indigo-600 hover:bg-indigo-700': items.length > 0,
+            'bg-slate-400': items.length === 0
+          }"
+        >
+          <i class="fa-solid fa-check mr-2"></i>
+          {{ budgetToEdit ? 'Salvar Alterações' : 'Gerar Link de Aprovação' }}
+        </button>
+      </div>
+    </section>
+    <section class="form md:overflow-y-auto p-4 pt-4">
+      <form
+        [formGroup]="budgetForm"
+        (ngSubmit)="saveBudget()"
+        class="flex flex-col gap-6 outline-indigo-600"
+      >
+        <div class="space-y-4">
+          <div>
+            <label for="nomeOrcamento" class="block text-xs font-medium text-slate-500 mb-1"
+              >Título do Orçamento <span class="text-red-500">*</span></label
+            >
+            <input
+              type="text"
+              id="nomeOrcamento"
+              formControlName="nomeOrcamento"
+              placeholder="Ex: Orçamento Drywall (IA Sugerido)"
+              class="block w-full p-2 border border-slate-200 rounded-md focus:ring-indigo-500 focus:border-indigo-500 text-sm outline-indigo-600"
+            />
+          </div>
+          <div>
+            <label for="cliente" class="block text-xs font-medium text-slate-500 mb-1"
+              >Cliente <span class="text-red-500">*</span></label
+            >
+            <div class="flex gap-2 items-center">
+              <select
+                id="cliente"
+                formControlName="clienteId"
+                (change)="onClientSelection($any($event.target).value)"
+                class="block w-full p-2 border border-slate-200 rounded-md focus:ring-indigo-500 focus:border-indigo-500 text-sm appearance-none bg-white outline-indigo-600"
+              >
+                <option *ngFor="let client of clientOptions" [value]="client.id">
+                  {{ client.nome }}
+                </option>
+              </select>
+              <button
+                type="button"
+                class="p-2 text-sm bg-indigo-50 text-indigo-600 rounded-md hover:bg-indigo-100 whitespace-nowrap transition-colors"
+              >
+                <i class="fa-solid fa-user-plus"></i>
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label for="observacoes" class="block text-xs font-medium text-slate-500 mb-1"
+              >Observações (Descrição do Budget)</label
+            >
+            <textarea
+              id="observacoes"
+              formControlName="observacoes"
+              rows="3"
+              class="mt-1 block w-full p-2 border border-slate-200 rounded-md resize-none text-sm focus:ring-indigo-500 focus:border-indigo-500 outline-indigo-600"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="shadow-sm rounded-md overflow-hidden">
+          <div class="flex flex-col md:flex-row justify-between items-center">
+            <h4 class="p-3 text-base font-semibold text-slate-700">Items ({{ items.length }})</h4>
+            <div class="p-3 pt-4 grid grid-cols-3 gap-3 justify-end">
+              <button
+                type="button"
+                (click)="addItem('MATERIAL')"
+                class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-md hover:bg-indigo-200 transition-colors"
+              >
+                <i class="fa-solid fa-boxes-stacked"></i>
+                Adicionar Material
+              </button>
+              <button
+                type="button"
+                (click)="addItem('MAO_DE_OBRA')"
+                class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-md hover:bg-indigo-200 transition-colors"
+              >
+                <i class="fa-solid fa-briefcase"></i> Adicionar Serviço
+              </button>
+              <button
+                type="button"
+                (click)="addItem('EQUIPAMENTO')"
+                class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-md hover:bg-indigo-200 transition-colors"
+              >
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+                Adicionar Equipamento
+              </button>
+            </div>
+          </div>
+          <div formArrayName="items" class="flex flex-col gap-3">
+            <ng-container *ngIf="items.controls.length > 0; else emptyItems">
+              <div
+                *ngFor="let itemGroup of items.controls; let i = index"
+                [formGroupName]="i"
+                [id]="itemGroup.get('uid')?.value"
+                class="p-6 transition-all duration-150 bg-indigo-600/10 border border-transparent rounded-sm focus:border-indigo-600"
+              >
+                <div class="flex justify-between items-start mb-2">
+                  <span class="px-2 py-0.5 rounded-full text-xs font-semibold">
+                    {{ itemGroup.get('itemType')?.value | replaceUnderscore }}
+                  </span>
+
+                  <button
+                    type="button"
+                    (click)="removeItem(i)"
+                    class="text-red-400 hover:text-red-600 p-1 transition-colors"
+                    title="Remover Item"
+                  >
+                    <i class="fa-solid fa-trash-alt text-sm"></i>
+                  </button>
+                </div>
+
+                <input
+                  type="text"
+                  formControlName="description"
+                  class="block w-full text-sm font-medium border p-3 rounded-md mb-3 focus:border-indigo-500 focus:ring-0 outline-indigo-600"
+                  placeholder="Descrição do Serviço ou Material"
+                />
+
+                <div class="grid grid-cols-5 gap-3 text-xs items-center">
+                  <div class="col-span-2 flex gap-2">
+                    <div class="flex-1">
+                      <label class="block font-medium text-slate-500">Qtd</label>
+                      <input
+                        type="number"
+                        formControlName="quantity"
+                        (blur)="onItemChange(i)"
+                        class="w-full p-3 border rounded-md text-sm outline-indigo-600"
+                      />
+                    </div>
+                    <div class="flex-1">
+                      <label class="block font-medium text-slate-500">Unid.</label>
+
+                      <select
+                        formControlName="unit"
+                        class="w-full p-3 border rounded-md text-sm appearance-none bg-white outline-indigo-600"
+                      >
+                        <option value="un" selected>Unidade (un)</option>
+                        <option value="m²">Metro Quadrado (m²)</option>
+                        <option value="m">Metro Linear (m)</option>
+                        <option value="h">Hora (h)</option>
+                        <option value="kg">Quilograma (kg)</option>
+                        <option value="lt">Litro (lt)</option>
+                        <option value="m³">Metro Cúbico (m³)</option>
+                        <option value="day">Diária (dia)</option>
+                        <option value="serviço">Serviço (serviço)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-span-2">
+                    <label class="block font-medium text-slate-500">Preço Unit. (R$)</label>
+                    <input
+                      type="number"
+                      formControlName="unitPrice"
+                      (blur)="onItemChange(i)"
+                      class="w-full p-3 border rounded-md text-sm outline-indigo-600"
+                    />
+                  </div>
+
+                  <div class="text-right">
+                    <label class="block font-medium text-slate-500">Total</label>
+                    <p class="pt-1 text-base text-indigo-700">
+                      R$ {{ itemGroup.get('totalPrice')?.value | number : '1.2-2' }}
+                    </p>
+                    <input type="hidden" formControlName="source" />
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #emptyItems>
+              <p class="p-6 rounded-md bg-indigo-600/10 text-indigo-600">
+                Nenhum material ou serviço cadastrado
+              </p>
+            </ng-template>
+          </div>
+        </div>
+      </form>
+    </section>
+  </section>
+</section>

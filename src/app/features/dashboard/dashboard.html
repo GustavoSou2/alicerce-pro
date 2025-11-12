@@ -1,0 +1,45 @@
+<div class="grid px-12 pt-6 pb-12 grid-cols-12 gap-6 min-h-screen text-slate-700">
+  <!-- Hero -->
+  <dynamic-hero
+    class="col-span-12"
+    type="welcome"
+    [userName]="'Gustavo'"
+    message="Gerencie seus projetos e orçamentos com eficiência."
+  ></dynamic-hero>
+
+  <!-- KPIs -->
+  <div
+    class="col-span-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 bg-white border border-slate-200 rounded-md p-6"
+  >
+    <kpi-card
+      title="Obras Ativas"
+      value="8"
+      icon="building"
+      color="emerald"
+      class="border-r border-slate-200"
+    ></kpi-card>
+    <kpi-card
+      title="Orçamento Total"
+      value="R$ 540.000"
+      icon="coins"
+      color="blue"
+      class="border-r border-slate-200"
+    ></kpi-card>
+    
+    <kpi-card title="Materiais em Falta" value="12" icon="alert-triangle" color="red"></kpi-card>
+  </div>
+
+  <!-- Charts -->
+  <div class="col-span-12 lg:col-span-8 bg-white border border-slate-200 rounded-md p-6">
+    <project-progress-chart></project-progress-chart>
+  </div>
+
+  <div class="col-span-12 lg:col-span-4 bg-white border border-slate-200 rounded-md p-6">
+    <cost-distribution-chart></cost-distribution-chart>
+  </div>
+
+  <!-- Notifications -->
+  <div class="col-span-12 bg-white border border-slate-200 rounded-md p-6 mt-2">
+    <notifications-feed></notifications-feed>
+  </div>
+</div>

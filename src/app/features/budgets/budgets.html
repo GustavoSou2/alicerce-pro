@@ -1,0 +1,40 @@
+<section class="flex flex-col p-12 pt-6 gap-10">
+  <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-6 w-6 text-blue-500"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+      />
+    </svg>
+    Orçamentos
+  </h2>
+
+  <section class="w-full flex justify-end">
+    <button
+      (click)="newBudget()"
+      class="rounded-3xl w-fit bg-indigo-600 text-white py-2 px-6 hover:bg-indigo-500 transitio"
+    >
+      Novo orçamento
+    </button>
+  </section>
+  <div class="col-span-12 bg-white border border-slate-200 rounded-md">
+    <div *ngIf="isLoading()" class="text-center py-8">Carregando orçamentos...</div>
+    <div *ngIf="!isLoading()">
+      <smart-table
+        [data]="budgets()"
+        [columns]="budgetColumns"
+        [actions]="budgetActions"
+        cardTitleField="name"
+      ></smart-table>
+    </div>
+  </div>
+</section>
+<router-outlet />

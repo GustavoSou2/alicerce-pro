@@ -1,0 +1,14 @@
+<div
+  class="flex items-center justify-between p-5 rounded-2xl bg-white/10 backdrop-blur-lg hover:bg-white/20 transition-all"
+>
+  <div>
+    <h3 class="text-lg font-medium text-slate-700">{{ title }}</h3>
+    <p class="text-3xl font-bold text-slate-500 mt-1">{{ value }}</p>
+  </div>
+  <div
+    class="w-12 h-12 rounded-xl flex items-center justify-center text-white"
+    [ngClass]="'bg-' + color + '-500/70'"
+  >
+    <i [class]="'lucide-' + icon"></i>
+  </div>
+</div>

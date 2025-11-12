@@ -1,0 +1,10 @@
+<h2 class="text-xl font-semibold mb-4 text-slate-700">Notificações Recentes</h2>
+<ul class="space-y-3">
+  <li
+    *ngFor="let n of notifications"
+    class="flex items-center gap-3 bg-white/5 p-3 rounded-xl"
+  >
+    <i [class]="'lucide-' + n.icon" class="text-lg"></i>
+    <span>{{ n.message }}</span>
+  </li>
+</ul>
